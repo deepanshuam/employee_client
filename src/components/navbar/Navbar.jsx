@@ -195,7 +195,7 @@ const Navbar = () => {
                 Logout
               </button>
             ) : (
-              <Link to="/login">
+              <Link to="/register">
                 <button className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-300">
                   Sign In
                 </button>
@@ -244,7 +244,7 @@ const Navbar = () => {
                 Logout
               </button>
             ) : (
-              <Link to="/login">
+              <Link to="/register">
                 <button
                   className="bg-white text-blue-600 w-full py-2 rounded"
                   onClick={toggleMenu}
