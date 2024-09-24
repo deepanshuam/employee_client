@@ -10,7 +10,10 @@ const EmployeeForm = () => {
     f_Designation: "",
     f_gender: "",
     f_Course: [],
+    
   });
+
+  const [imageFile, setImageFile] = useState(null); // State to handle image file
 
   const handleChange = (e) => {
     const { name, value } = e.target;
@@ -24,14 +27,39 @@ const EmployeeForm = () => {
     }
   };
 
+  const handleFileChange = (e) => {
+    setImageFile(e.target.files[0]); // Handle the file input for the image
+  };
+
   const handleSubmit = async (e) => {
     e.preventDefault();
+    const formDataToSubmit = new FormData(); // Using FormData to send text and file
+
+    // Append form data
+    formDataToSubmit.append("f_Name", formData.f_Name);
+    formDataToSubmit.append("f_Email", formData.f_Email);
+    formDataToSubmit.append("f_Mobile", formData.f_Mobile);
+    formDataToSubmit.append("f_Designation", formData.f_Designation);
+    formDataToSubmit.append("f_gender", formData.f_gender);
+    formDataToSubmit.append("f_Course", formData.f_Course);
+
+    if (imageFile) {
+      formDataToSubmit.append("f_Image", imageFile); // Append the image file if it exists
+    }
+
     try {
       const response = await axios.post(
         "http://localhost:8000/api/employees",
-        formData
+        formDataToSubmit,
+        {
+          headers: {
+            "Content-Type": "multipart/form-data", // Important to set this for file uploads
+          },
+        }
       );
       toast.success(response.data.message);
+
+      // Clear form data and image
       setFormData({
         f_Name: "",
         f_Email: "",
@@ -40,6 +68,7 @@ const EmployeeForm = () => {
         f_gender: "",
         f_Course: [],
       });
+      setImageFile(null);
     } catch (error) {
       if (error.response) {
         toast.error(error.response.data.message);
@@ -134,6 +163,16 @@ const EmployeeForm = () => {
             </label>
           ))}
         </div>
+      </div>
+      <div className="mb-4">
+        <label className="block text-sm font-medium text-gray-700">Upload Image</label>
+        <input
+          type="file"
+          name="f_Image"
+          onChange={handleFileChange}
+          className="mt-1 block w-full border border-gray-300 rounded-md shadow-sm focus:border-blue-500 focus:ring focus:ring-blue-200 transition duration-200"
+          accept="image/*"
+        />
       </div>
       <button
         type="submit"

@@ -58,7 +58,8 @@ const LoginForm = () => {
       console.log("Login Response:", response.data);
   
       // Ensure the user object includes the correct properties
-      const user = response.data.user;
+      const user = response.data.data.user;
+      console.log(user);
       localStorage.setItem("user", JSON.stringify(user)); // Adjust this if the structure is different
   
       toast.success("Login successful!", {

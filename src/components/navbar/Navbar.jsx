@@ -134,11 +134,14 @@ const Navbar = () => {
   const [isOpen, setIsOpen] = useState(false);
   const [user, setUser] = useState(null);
 
+  // Load user from localStorage when the component mounts
   useEffect(() => {
     const storedUser = localStorage.getItem("user");
+
     if (storedUser) {
       try {
-        setUser(JSON.parse(storedUser)); // Ensure this is correctly parsed
+        const parsedUser = JSON.parse(storedUser); // Parse the stored user data
+        setUser(parsedUser); // Set the user state to the parsed data
       } catch (error) {
         console.error("Failed to parse user data:", error);
         localStorage.removeItem("user"); // Clear invalid data
@@ -146,12 +149,14 @@ const Navbar = () => {
     }
   }, []);
 
+  // Handle logout and clear localStorage
   const handleLogout = () => {
     localStorage.removeItem("user");
-    setUser(null);
+    setUser(null); // Reset the user state
     window.location.href = "/login"; // Redirect to login page
   };
 
+  // Toggle the mobile menu
   const toggleMenu = () => {
     setIsOpen(!isOpen);
   };
@@ -175,7 +180,7 @@ const Navbar = () => {
           <li>
             {user ? (
               <span className="hover:text-gray-300">
-                {user.f_userName || "User"}
+                {user.f_userName || "User"} {/* Display the logged-in username */}
               </span>
             ) : (
               <span className="hover:text-gray-300">Admin Name</span>
@@ -190,7 +195,7 @@ const Navbar = () => {
                 Logout
               </button>
             ) : (
-              <Link to="/register">
+              <Link to="/login">
                 <button className="bg-white text-blue-600 px-4 py-2 rounded hover:bg-gray-300">
                   Sign In
                 </button>
@@ -199,6 +204,7 @@ const Navbar = () => {
           </li>
         </ul>
 
+        {/* Mobile Menu Toggle */}
         <div className="md:hidden">
           <button onClick={toggleMenu}>
             {isOpen ? <FaTimes size={24} /> : <FaBars size={24} />}
@@ -206,6 +212,7 @@ const Navbar = () => {
         </div>
       </div>
 
+      {/* Mobile Menu */}
       {isOpen && (
         <ul className="md:hidden bg-blue-600 text-white p-4 space-y-4">
           <li>
@@ -237,7 +244,7 @@ const Navbar = () => {
                 Logout
               </button>
             ) : (
-              <Link to="/register">
+              <Link to="/login">
                 <button
                   className="bg-white text-blue-600 w-full py-2 rounded"
                   onClick={toggleMenu}

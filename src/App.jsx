@@ -2,7 +2,7 @@ import React from "react";
 import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Register from "./components/register/Register";
 import LoginForm from "./components/Login/Login";
-import Navbar from "./components/navbar/Navbar1";
+import Navbar from "./components/navbar/Navbar";
 import Homepage from "./pages/Homepage";
 import EmployeeForm from "./components/Employee/EmployeeForm";
 import EmployeeList from "./components/Employee/EmployeeList";
